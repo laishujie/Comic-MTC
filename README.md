@@ -5,9 +5,7 @@
 <br/>
 
 ## 简介
-　在线漫画阅读器,项目采用 MVP + RxJava + Retrofit + Dagger2+rxlifecycle .
-  
-功能上现在只是简单的基本功能，后期会优化更新加上，以及详细的注释会更新上
+　在线漫画阅读器,项目采用 MVP + RxJava + Retrofit + Dagger2+rxlifecycle .功能上现在只是简单的基本功能，后期会优化更新加上，以及详细的注释会更新上
 
 如有更好的做法或意见欢迎 <a href="https://github.com/laishujie/Comic-MTC/issues">提交Issues</a>
 
