@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="BookViewLayout">
+        <attr name="bookViewLayout_type">
+            <enum name="no_top_title" value="1"/>
+            <enum name="no_all_title" value="2"/>
+        </attr>
+    </declare-styleable>
+</resources>

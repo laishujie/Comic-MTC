@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cl_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/ac_appBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        >
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_60"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+
+                <com.lai.mtc.comm.widget.BookViewLayout
+                    android:id="@+id/activity_des_cover"
+                    android:layout_width="@dimen/dp_100"
+                    android:layout_height="wrap_content"
+                    app:bookViewLayout_type="no_all_title"
+                    />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="6"
+                    android:gravity="bottom"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="@string/app_name"
+                        android:textColor="@color/color333"
+                        android:textSize="18sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_author"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/dp_10"
+                        android:layout_marginTop="@dimen/dp_5"
+                        android:textSize="@dimen/sp_10"/>
+
+                    <View
+                        android:id="@+id/activity_desc_line"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_marginEnd="@dimen/dp_10"
+                        android:layout_marginRight="@dimen/dp_10"
+                        android:background="#e5e5e5"/>
+
+                    <TextView
+                        android:id="@+id/tv_des_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/dp_10"
+                        android:layout_marginRight="@dimen/dp_10"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:ellipsize="end"
+                        android:maxLines="3"
+                        android:minLines="3"
+                        android:textColor="#999999"
+                        android:textSize="@dimen/sp_10"
+                        />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+        <com.lai.library.ButtonStyle
+            android:id="@+id/btn_find"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_40"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginRight="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_10"
+            android:text="@string/preview"
+            android:textColor="@color/white"
+            app:layout_scrollFlags="scroll"
+            />
+
+    </android.support.design.widget.AppBarLayout>
+
+  <!--  <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_10"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_10"
+            android:orientation="vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:paddingTop="@dimen/dp_5">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                >
+
+                <View
+                    android:layout_width="5dp"
+                    android:layout_height="@dimen/dp_20"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:background="@color/color7979"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="章节列表"
+                    android:textSize="14sp"
+                    />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    />
+
+                <ImageView
+                    android:id="@+id/iv_reverse"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dp_25"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:src="@drawable/ic_sort"
+                    />
+
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/dp_10"
+                />
+
+        </LinearLayout>
+<!--
+    </android.support.v4.widget.NestedScrollView>
+-->
+
+    <include layout="@layout/include_title"/>
+
+
+</android.support.design.widget.CoordinatorLayout>

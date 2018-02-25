@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="vertical">
+
+    <!--<include
+        layout="@layout/include_title"/>-->
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/ac_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_48"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        app:navigationIcon="@drawable/ic_action_back"
+        app:contentInsetStartWithNavigation="@dimen/dp_1">
+
+        <TextView
+            android:id="@+id/ac_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            android:textColor="@color/color7979"
+            android:textSize="@dimen/sp_16"
+            android:textStyle="bold"
+            tools:text="@string/app_name"/>
+
+    </android.support.v7.widget.Toolbar>
+    <include layout="@layout/comm_recyclerview"/>
+
+</LinearLayout>

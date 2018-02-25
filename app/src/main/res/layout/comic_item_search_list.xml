@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              xmlns:toos="http://schemas.android.com/tools"
+              android:background="@color/white"
+              android:orientation="horizontal"
+              android:layout_marginTop="@dimen/dp_5"
+              android:paddingBottom="@dimen/dp_10"
+              android:paddingTop="@dimen/dp_10">
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <com.lai.mtc.comm.widget.BookViewLayout
+        android:id="@+id/activity_des_cover"
+        android:layout_width="@dimen/dp_100"
+        android:layout_height="wrap_content"
+        app:bookViewLayout_type="no_all_title"
+        />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="6"
+        android:gravity="bottom"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            toos:text="@string/app_name"
+            android:textColor="@color/color333"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/tv_author"
+            android:layout_width="wrap_content"
+            android:lineSpacingExtra="@dimen/dp_5"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_5"
+            android:textSize="@dimen/sp_10"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginEnd="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_10"
+            android:background="#e5e5e5"/>
+
+        <TextView
+            android:id="@+id/tv_des_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_10"
+            android:ellipsize="end"
+            android:maxLines="3"
+            toos:text="asd"
+            android:minLines="3"
+            android:textColor="#999999"
+            android:textSize="@dimen/sp_10"
+            />
+    </LinearLayout>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+</LinearLayout>

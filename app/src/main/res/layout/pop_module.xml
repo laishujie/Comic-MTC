@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_10"
+        android:text="@string/app_name"
+        android:textColor="@color/color333"
+        android:textSize="@dimen/sp_14"
+        android:textStyle="bold"/>
+
+    <RadioGroup
+        android:id="@+id/rg_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_60"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="7dp"
+            android:text="下拉模式"
+            android:textColor="#767676"
+            android:textSize="14sp"/>
+
+        <RadioButton
+            android:id="@+id/rb_pull"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="7dp"
+            android:text="翻页模式"
+            android:textColor="#767676"
+            android:textSize="14sp"/>
+
+        <RadioButton
+            android:id="@+id/rb_pager"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+    </RadioGroup>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:gravity="right"
+        android:orientation="horizontal"
+        android:paddingRight="@dimen/dp_10">
+
+        <com.lai.library.ButtonStyle
+            android:id="@+id/btn_no"
+            android:layout_width="@dimen/dp_60"
+            android:layout_height="@dimen/dp_30"
+            android:layout_marginRight="@dimen/dp_10"
+            android:text="取消"
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="12sp"
+            app:normal_color="@color/white"
+            app:press_color="@color/color7979"/>
+
+        <com.lai.library.ButtonStyle
+            android:id="@+id/btn_yes"
+            android:layout_width="@dimen/dp_60"
+            android:layout_height="@dimen/dp_30"
+            android:text="确定"
+            android:textColor="@color/color333"
+            android:textSize="12sp"
+            app:normal_color="@color/white"
+            app:press_color="@color/color7979"/>
+
+    </LinearLayout>
+</LinearLayout>

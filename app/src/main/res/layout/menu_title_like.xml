@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.lai.library.ButtonStyle xmlns:android="http://schemas.android.com/apk/res/android"
+                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                             android:id="@+id/tv_collection"
+                             app:normal_color="@color/white"
+                             app:press_color="@color/color7979"
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:clickable="true"
+                             android:drawablePadding="@dimen/dp_5"
+                             android:focusable="true"
+                             android:gravity="center"
+                             android:paddingLeft="10dip"
+                             android:paddingRight="10dip"
+                             android:text="收藏"
+                             android:textColor="@color/color7979"
+                             android:textStyle="bold"/>

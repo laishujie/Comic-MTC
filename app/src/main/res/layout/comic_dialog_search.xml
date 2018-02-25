@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <include layout="@layout/include_title_search"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_history"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/white"/>
+
+    <TextView
+        android:id="@+id/tv_clean"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:text="@string/clean_history"
+        />
+</LinearLayout>

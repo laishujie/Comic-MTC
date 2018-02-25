@@ -1,0 +1,135 @@
+apply plugin: 'com.android.application'
+apply plugin: 'io.objectbox'
+
+//读取签名配置文件
+def getSigningProperties() {
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+    if (properties != null && properties.containsKey('storePassword') && properties.containsKey('keyPassword')) {
+        android.signingConfigs.release.storePassword = properties['storePassword']
+        android.signingConfigs.release.keyPassword = properties['keyPassword']
+    }
+}
+//获取时间
+static def releaseTime() {
+    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
+}
+
+android {
+    signingConfigs {
+        release {
+            keyAlias 'key0'
+            storeFile file('KeyStore/release.jks')
+            keyPassword
+            storePassword
+        }
+    }
+    getSigningProperties()
+
+    compileSdkVersion 26
+    defaultConfig {
+        applicationId "com.lai.mtc"
+        minSdkVersion 15
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        //只保留了中文和英文的语言资源
+        resConfigs "zh", "en"
+    }
+    buildTypes {
+
+        debug {
+            minifyEnabled false
+            //压缩对齐，提高运行时的效率，也可以使用zipAlignEnabled true
+            zipAlignEnabled true
+            //可以调试
+            debuggable true
+
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        release {
+            //压缩对齐，提高运行时的效率，也可以使用zipAlignEnabled true
+            zipAlignEnabled true
+            //不可调试
+            debuggable true
+            //是否混淆
+            minifyEnabled true
+            //是否移除无用资源
+            zipAlignEnabled true
+            //指定签名文件为release签名，注意非debug，如果不指定签名，则打出来的包不会签名
+            signingConfig signingConfigs.release
+            //图片、布局变成最小，没有删除它们。
+            //需要动态加载资源时，需要在不要使用该优化，
+            // 否则可能会出现运行时报错或者显示效果不正确的问题
+            //tools:keep="@layout/test_layout"
+            shrinkResources true
+
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            //自定义apk名字
+            android.applicationVariants.all { variant ->
+                variant.outputs.all {
+                    outputFileName = "MTC_${defaultConfig.versionName}_${releaseTime()}_release.apk"
+                }
+            }
+        }
+    }
+}
+
+//让所有依赖 都用相同的支持库版本。
+configurations.all {
+    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+        def requested = details.requested
+        if (requested.group == 'com.android.support') {
+            if (!requested.name.startsWith("multidex")) {
+                details.useVersion '26.1.0'
+            }
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    implementation "com.android.support:design:$support"
+    implementation "com.android.support:appcompat-v7:$support"
+    implementation "com.android.support:cardview-v7:$support"
+    testCompile 'junit:junit:4.12'
+    androidTestImplementation "com.android.support.test:runner:$test_runner_version"
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:$test_espresso_version"
+
+    //网络请求相关类
+    implementation "io.reactivex.rxjava2:rxjava:$rxjava"
+    implementation "io.reactivex.rxjava2:rxandroid:$rxandroid"
+    implementation "com.squareup.retrofit2:retrofit:$retrofit"
+    implementation "com.squareup.retrofit2:converter-gson:$converter_gson"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$adapter_rxjava2"
+    implementation "com.squareup.okhttp3:logging-interceptor:$logging_interceptor"
+    //防止rxJava内存泄漏
+    implementation "com.trello.rxlifecycle2:rxlifecycle-components:$rxlifecycle2"
+    //注解
+    api "com.jakewharton:butterknife:$butterknife"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$butterknife"
+    //SmartRefreshLayout 下拉框
+    //implementation  'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
+    //DI. dagger2 注入
+    compile 'com.google.dagger:dagger:2.12'
+    annotationProcessor "com.google.dagger:dagger-compiler:$dagger"
+    provided 'org.glassfish:javax.annotation:10.0-b28'
+    implementation "com.google.dagger:dagger-android-support:$dagger"
+    annotationProcessor "com.google.dagger:dagger-android-processor:$dagger"
+    //Rx权限控制
+    //implementation  'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar'
+    implementation "com.lai:buttonStyle:$buttonStyle"
+    implementation "com.github.CymChad:BaseRecyclerViewAdapterHelper:$BaseRecyclerViewAdapterHelper"
+    api "com.airbnb.android:lottie:$lottie"
+    implementation "com.github.bumptech.glide:glide:$glide"
+    annotationProcessor "com.github.bumptech.glide:compiler:$glide"
+    implementation("com.github.bumptech.glide:okhttp3-integration:$glide") {
+        transitive = false
+    }
+}

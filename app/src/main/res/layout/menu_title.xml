@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.lai.library.ButtonStyle xmlns:android="http://schemas.android.com/apk/res/android"
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                             app:normal_color="@color/white"
+                             app:press_color="@color/color7979"
+                             android:clickable="true"
+                             android:drawablePadding="@dimen/dp_5"
+                             android:focusable="true"
+                             android:gravity="center"
+                             android:paddingLeft="10dip"
+                             android:paddingRight="10dip"
+                             android:text="换源"
+                             android:textColor="@color/color7979"
+                             android:textStyle="bold"/>

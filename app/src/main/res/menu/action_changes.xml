@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!--<item
+        android:id="@+id/action_chang"
+        android:enabled="true"
+        app:showAsAction="always"
+        android:title=""
+        app:actionLayout="@layout/menu_title"
+        />-->
+    <item
+        android:id="@+id/action_module"
+        android:enabled="true"
+        app:showAsAction="always"
+        android:title="单列"
+        android:icon="@drawable/ic_line_weight_black_24dp"
+        />
+</menu>

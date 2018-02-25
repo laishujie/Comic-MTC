@@ -1,0 +1,95 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="@dimen/dp_110"
+    android:layout_gravity="center"
+    android:layout_height="wrap_content"
+    android:clipChildren="false"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_top_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dp_2"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="@string/app_name"
+        android:textColor="#333333"
+        android:textSize="@dimen/sp_14"
+        android:textStyle="bold"
+        android:visibility="gone"/>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/dp_2"
+        android:clipChildren="false">
+
+
+        <com.lai.mtc.comm.widget.BookView
+            android:id="@+id/book2"
+            android:layout_width="@dimen/dp_90"
+            android:layout_height="@dimen/dp_120"
+            android:clipChildren="true"
+            android:layout_marginRight="@dimen/dp_5"
+            app:cardCornerRadius="@dimen/dp_10"
+            >
+
+            <ImageView
+                android:id="@+id/iv_cover"
+                android:background="#AEBDCC"
+                android:alpha="0.3"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_120"
+                />
+        </com.lai.mtc.comm.widget.BookView>
+
+        <com.lai.mtc.comm.widget.BookView
+            android:id="@+id/book"
+            android:layout_width="@dimen/dp_85"
+            android:layout_height="@dimen/dp_120"
+            app:cardCornerRadius="@dimen/dp_3"
+            >
+
+            <ImageView
+                android:id="@+id/iv_cover2"
+                android:layout_width="@dimen/dp_85"
+                android:layout_height="@dimen/dp_120"
+                />
+
+            <View
+                android:layout_width="5dp"
+                android:layout_height="match_parent"
+                android:alpha="0.3"
+                android:background="@color/white"
+                />
+
+        </com.lai.mtc.comm.widget.BookView>
+
+
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="@string/app_name"
+        android:textColor="#333333"
+        android:textSize="@dimen/sp_14"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/tv_tag"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="@string/app_name"
+        android:textColor="#666666"
+        android:textSize="@dimen/sp_12"
+        />
+</LinearLayout>

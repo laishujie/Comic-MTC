@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                          xmlns:app="http://schemas.android.com/apk/res-auto"
+                                          android:layout_width="match_parent"
+                                          android:layout_height="wrap_content"
+                                          android:layout_marginBottom="@dimen/dp_10"
+                                          android:background="@color/white"
+                                          android:gravity="center"
+                                          android:orientation="vertical"
+                                          android:paddingLeft="@dimen/dp_10"
+                                          android:paddingRight="@dimen/dp_10"
+                                          android:paddingTop="@dimen/dp_10">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="@dimen/dp_12"
+            android:layout_height="@dimen/dp_12"
+            android:layout_marginEnd="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_10"
+            android:background="@drawable/bg_item_1"/>
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/item_color"
+            android:textSize="@dimen/sp_16"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dp_5"
+        android:layout_marginLeft="@dimen/dp_5"
+        android:layout_marginStart="@dimen/dp_5"
+        android:layout_marginTop="@dimen/dp_5"/>
+
+    <com.lai.library.ButtonStyle
+        android:id="@+id/btn_change"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_35"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_10"
+        android:text="@string/change_item"
+        android:textColor="@color/color9999"
+        android:textSize="@dimen/sp_14"
+        app:corner="@dimen/dp_40"
+        app:normal_color="@color/colorEEE"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#ededed"
+        android:layout_marginTop="@dimen/dp_10"
+        />
+
+</LinearLayout>
