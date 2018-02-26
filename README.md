@@ -13,6 +13,26 @@
 
 如果对你有帮助不妨start支持一下.感谢ヽ(￣ω￣(￣ω￣〃)ゝ
 
+## 应用截图
+<p align="center">
+
+<img src="https://github.com/laishujie/Comic-MTC/blob/master/screenshot/home.png" width="260"/>
+
+<img src="https://github.com/laishujie/Comic-MTC/blob/master/screenshot/home2.png" width="260"/>
+
+<img src="https://github.com/laishujie/Comic-MTC/blob/master/screenshot/Collection.png" width="260"/>
+
+</p>
+
+<p align="center">
+
+<img src="https://github.com/laishujie/Comic-MTC/blob/master/screenshot/search.png" width="260"/>
+
+<img src="https://github.com/laishujie/Comic-MTC/blob/master/screenshot/des.png" width="260"/>
+
+<img src="https://github.com/laishujie/Comic-MTC/blob/master/screenshot/find2.png" width="260"/>
+
+</p>
 
 ## 声明
 　本项目部分API来自酷克漫画，个人练手学习项目，此开源项目仅做学习交流使用, 不涉及任何商业用途，有如侵权，立即删除。
