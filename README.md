@@ -42,9 +42,9 @@
 ![Progress](http://progressed.io/bar/1?scale=10&title=相关文章&suffix=个)
 <br/>
 ##  相关文章
-- **框架搭建**
-    - <a href="http://blog.csdn.net/a8688555/article/details/78792793"> Dagger2搭建</a>
-    - 其他文章后续跟上
+### 框架搭建
+- <a href="http://blog.csdn.net/a8688555/article/details/78792793"> Dagger2搭建</a>
+- 其他文章近期更新
 
 ## 声明
 　本项目部分API来自酷克漫画，个人练手学习项目，此开源项目仅做学习交流使用, 不涉及任何商业用途，有如侵权，立即删除。
