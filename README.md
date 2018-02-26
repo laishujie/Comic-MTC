@@ -36,16 +36,12 @@
 </p>
 
 ## 计划
-![Progress](http://progressed.io/bar/100?title=首页 )<br/>
-![Progress](http://progressed.io/bar/100?title=搜索 )<br/>
-![Progress](http://progressed.io/bar/100?title=详情 )<br/>
-![Progress](http://progressed.io/bar/100?title=预览 )<br/>
 ![Progress](http://progressed.io/bar/60?title=代码注释 )<br/>
 ![Progress](http://progressed.io/bar/0?title=离线下载 )<br/>
 ![Progress](http://progressed.io/bar/0?title=后期优化 )<br/>
-![Progress](http://progressed.io/bar/1?scale=10&title=相关文章&suffix=个 ) 
+![Progress](http://progressed.io/bar/1?scale=10&title=相关文章&suffix=个)
 <br/>
-###  相关文章
+##  相关文章
 - **框架搭建**
     - <a href="http://blog.csdn.net/a8688555/article/details/78792793"> Dagger2搭建</a>
 
