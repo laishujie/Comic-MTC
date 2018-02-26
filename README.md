@@ -1,7 +1,10 @@
 <p align="center">
 <h1 align="center">Comic-MTC</h1>
 </p>
-版本：v1.0.0 | 大小：4.1 M | 2018/2/25
+版本：v1.0.0 | 大小：4.1 M | 2018/2/25 
+
+<a href="https://github.com/laishujie/APk/blob/master/apk/MTC_1.0_2018-02-26_release.apk">点击下载体验
+ 
 <br/>
 
 ## 简介
