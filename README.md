@@ -35,7 +35,7 @@
 
 </p>
 
-## 计划
+## 计划进度
 ![Progress](http://progressed.io/bar/60?title=代码注释 )<br/>
 ![Progress](http://progressed.io/bar/1?scale=10&title=更新文章&suffix=个)<br/>
 ![Progress](http://progressed.io/bar/0?title=自定义首页标签 )<br/>
