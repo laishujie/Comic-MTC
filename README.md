@@ -39,6 +39,7 @@
 ![Progress](http://progressed.io/bar/60?title=代码注释 )<br/>
 ![Progress](http://progressed.io/bar/1?scale=10&title=更新文章&suffix=个)<br/>
 ![Progress](http://progressed.io/bar/0?title=自定义首页标签 )<br/>
+![Progress](http://progressed.io/bar/0?title=收藏夹分类 )<br/>
 ![Progress](http://progressed.io/bar/0?title=离线下载 )<br/>
 ![Progress](http://progressed.io/bar/0?title=后期优化 )<br/>
 <br/>
