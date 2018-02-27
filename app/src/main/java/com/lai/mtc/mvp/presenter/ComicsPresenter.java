@@ -36,6 +36,7 @@ import retrofit2.Response;
  * @author Lai
  * @time 2017/12/11 17:04
  * @describe 漫画业务桥梁P
+ * @see  SimplePresenter
  */
 
 public class ComicsPresenter extends BasePresenter<ComicsContract.View> implements ComicsContract.Model {

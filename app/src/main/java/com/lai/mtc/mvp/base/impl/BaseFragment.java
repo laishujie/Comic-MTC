@@ -3,6 +3,7 @@ package com.lai.mtc.mvp.base.impl;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -22,7 +23,7 @@ import dagger.android.AndroidInjection;
 /**
  * @author Lai
  * @time 2017/9/1 9:53
- * @describe 基本的fragment
+ * @describe 基本的fragment,不涉及MVP
  */
 
 public abstract class BaseFragment extends RxFragment implements IView {
@@ -41,6 +42,10 @@ public abstract class BaseFragment extends RxFragment implements IView {
     @LayoutRes
     public abstract int getLayoutResId();
 
+    /**
+     * 这个方法是关于Fragment完成创建的过程中，进行界面填充的方法,该方法返回的是一个view对象
+     * 在这个对象中封装的就是Fragment对应的布局
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
         parentView = inflater.inflate(getLayoutResId(), container, false);
@@ -48,10 +53,22 @@ public abstract class BaseFragment extends RxFragment implements IView {
         return parentView;
     }
 
+    /**
+     * 这个方法当onCreateView方法中的view创建完成之后，执行
+     * 在inflate完成view的创建之后，可以将对应view中的各个控件进行查找findViewById
+     */
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         bind = ButterKnife.bind(this, view);
+    }
+
+    /**
+     * 这个方法是在Fragment完成创建操作之后，进行数据填充操作的时候执行的方法
+     */
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         finishCreateView(savedInstanceState);
     }
 

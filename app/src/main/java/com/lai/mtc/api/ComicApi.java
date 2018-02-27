@@ -17,7 +17,7 @@ import retrofit2.http.Query;
 /**
  * @author Lai
  * @time 2017/9/5 11:55
- * @describe describe
+ * @describe 动漫API管理类
  */
 
 public interface ComicApi {

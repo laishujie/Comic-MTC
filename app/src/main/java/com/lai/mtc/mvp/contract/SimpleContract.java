@@ -8,6 +8,7 @@ import com.lai.mtc.mvp.base.IView;
  * @author Lai
  * @time 2017/12/11 17:01
  * @describe 模版
+ * 契约类。统一写可减少回调
  */
 
 public class SimpleContract {

@@ -9,7 +9,7 @@ import javax.inject.Inject;
 /**
  * @author Lai
  * @time 2017/9/1 9:53
- * @describe describe
+ * @describe MVP Fragment 封装
  */
 
 public abstract class BaseMvpFragment<P extends IPresenter> extends BaseFragment {

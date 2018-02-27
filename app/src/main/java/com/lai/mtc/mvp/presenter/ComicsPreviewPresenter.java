@@ -36,7 +36,8 @@ import io.reactivex.schedulers.Schedulers;
 /**
  * @author Lai
  * @time 2018/1/23 16:37
- * @describe describe
+ * @describe 预览业务桥梁
+ * @see  SimplePresenter
  */
 
 public class ComicsPreviewPresenter extends BasePresenter<ComicsPreviewContract.View> implements ComicsPreviewContract.Model {

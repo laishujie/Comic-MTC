@@ -13,7 +13,8 @@ import javax.inject.Inject;
 /**
  * @author Lai
  * @time 2018/1/23 16:37
- * @describe describe
+ * @describe 搜索P
+ * @see  SimplePresenter
  */
 
 public class ComicsSearchPresenter extends BasePresenter<ComicsSearchContract.View> implements ComicsSearchContract.Model {
