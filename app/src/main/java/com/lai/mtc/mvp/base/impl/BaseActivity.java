@@ -22,9 +22,8 @@ import dagger.android.AndroidInjection;
 /**
  * @author Lai
  * @time 2017/12/10 17:18
- * @describe describe
+ * @describe 公共的Activity，不涉及MVP
  */
-
 public abstract class BaseActivity extends RxAppCompatActivity implements IView {
     //解除绑定控件
     private Unbinder mUnbinder;

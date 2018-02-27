@@ -10,7 +10,7 @@ import javax.inject.Inject;
 /**
  * @author Lai
  * @time 2017/12/10 17:18
- * @describe describe
+ * @describe MVP Activity
  */
 
 public abstract class BaseMvpActivity<P extends IPresenter> extends BaseActivity implements IView {

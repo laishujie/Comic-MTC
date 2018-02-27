@@ -16,7 +16,7 @@ import io.reactivex.functions.Function;
 /**
  * @author Lai
  * @time 2017/12/10 16:32
- * @describe describe
+ * @describe 公共P层
  */
 
 public class BasePresenter<V extends IView> implements IPresenter<V>, LifecycleObserver {
@@ -25,12 +25,6 @@ public class BasePresenter<V extends IView> implements IPresenter<V>, LifecycleO
     // protected M mModel;
     //View 显示回显的接口
     protected V mRootView;
-
-    public void setMethodObservable(Observable observable) {
-        this.methodObservable = observable;
-    }
-
-    private Observable methodObservable;
 
     public BasePresenter() {
         onStart();
@@ -65,10 +59,6 @@ public class BasePresenter<V extends IView> implements IPresenter<V>, LifecycleO
         return mRootView;
     }
 
-    @Override
-    public <P> Observable<P> getCurrMethod() {
-        return methodObservable;
-    }
 
     public class HttpResultFunction<T> implements Function<Throwable, Observable<T>> {
         @Override

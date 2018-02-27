@@ -23,7 +23,7 @@ import dagger.android.AndroidInjection;
 /**
  * @author Lai
  * @time 2017/9/1 9:53
- * @describe 基本的fragment,不涉及MVP
+ * @describe 公共的fragment,不涉及MVP
  */
 
 public abstract class BaseFragment extends RxFragment implements IView {

@@ -21,6 +21,11 @@ import com.lai.mtc.comm.ApiException;
 import com.lai.mtc.comm.dialog.LoadingDialog;
 import com.trello.rxlifecycle2.LifecycleTransformer;
 
+/**
+ * View层公共封装
+ *
+ * @see com.lai.mtc.mvp.presenter.SimplePresenter
+ */
 public interface IView {
 
     /**
