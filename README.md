@@ -46,7 +46,7 @@
 <br/>
 ##  相关文章
 ### 框架搭建
-- <a href="http://blog.csdn.net/a8688555/article/details/79383270"> 常见的MVP与封装</a>
+- <a href="http://blog.csdn.net/a8688555/article/details/79383270"> 常见的MVP与封装 提供DEMO</a>
 - <a href="http://blog.csdn.net/a8688555/article/details/78792793"> Dagger2搭建</a>
 - 其他文章近期更新
 
