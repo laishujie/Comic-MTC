@@ -3,6 +3,7 @@
 </p>
 版本：v1.0.0 | 大小：4.1 M | 2018/2/25
 <br/>
+<a href="https://github.com/laishujie/APk/raw/master/apk/MTC_1.0_2018-02-26_release.apk">点击下载体验</a>
 
 ## 简介
 　在线漫画阅读器,项目采用 MVP + RxJava + Retrofit + Dagger2+rxlifecycle .功能上现在只是简单的基本功能。
@@ -13,6 +14,39 @@
 
 如果对你有帮助不妨start支持一下.感谢ヽ(￣ω￣(￣ω￣〃)ゝ
 
+## 应用截图
+<p align="center">
+
+<img src="https://github.com/laishujie/Comic-MTC/blob/master/screenshot/home.png" width="260"/>
+
+<img src="https://github.com/laishujie/Comic-MTC/blob/master/screenshot/home2.png" width="260"/>
+
+<img src="https://github.com/laishujie/Comic-MTC/blob/master/screenshot/Collection.png" width="260"/>
+
+</p>
+
+<p align="center">
+
+<img src="https://github.com/laishujie/Comic-MTC/blob/master/screenshot/search.png" width="260"/>
+
+<img src="https://github.com/laishujie/Comic-MTC/blob/master/screenshot/des.png" width="260"/>
+
+<img src="https://github.com/laishujie/Comic-MTC/blob/master/screenshot/find2.png" width="260"/>
+
+</p>
+
+## 计划进度
+![Progress](http://progressed.io/bar/60?title=代码注释 )<br/>
+![Progress](http://progressed.io/bar/1?scale=10&title=更新文章&suffix=个)<br/>
+![Progress](http://progressed.io/bar/0?title=自定义首页标签 )<br/>
+![Progress](http://progressed.io/bar/0?title=收藏夹分类 )<br/>
+![Progress](http://progressed.io/bar/0?title=离线下载 )<br/>
+![Progress](http://progressed.io/bar/0?title=后期优化 )<br/>
+<br/>
+##  相关文章
+### 框架搭建
+- <a href="http://blog.csdn.net/a8688555/article/details/78792793"> Dagger2搭建</a>
+- 其他文章近期更新
 
 ## 声明
 　本项目部分API来自酷克漫画，个人练手学习项目，此开源项目仅做学习交流使用, 不涉及任何商业用途，有如侵权，立即删除。
