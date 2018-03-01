@@ -45,7 +45,7 @@
 ![Progress](http://progressed.io/bar/0?title=后期优化 )<br/>
 <br/>
 ##  相关文章
-- <a href="http://blog.csdn.net/a8688555/article/details/79407112"> 项目讲解</a>
+- <a href="http://blog.csdn.net/a8688555/article/details/79407112"> 强力推荐！项目讲解</a>
 - <a href="http://blog.csdn.net/a8688555/article/details/79383270"> 常见的MVP与封装 提供DEMO</a>
 - <a href="http://blog.csdn.net/a8688555/article/details/78792793"> Dagger2搭建</a>
 - 其他文章近期更新
