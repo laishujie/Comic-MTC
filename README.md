@@ -41,7 +41,7 @@
 ![Progress](http://progressed.io/bar/3?scale=3&title=更新文章&suffix=个)<br/>
 ![Progress](http://progressed.io/bar/0?title=自定义首页标签 )<br/>
 ![Progress](http://progressed.io/bar/0?title=收藏夹分类 )<br/>
-![Progress](http://progressed.io/bar/0?title=离线下载 )<br/>
+![Progress](http://progressed.io/bar/20?title=离线下载 )<br/>
 ![Progress](http://progressed.io/bar/0?title=后期优化 )<br/>
 <br/>
 ##  相关文章
