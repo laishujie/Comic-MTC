@@ -39,11 +39,12 @@
 ## 计划进度
 ![Progress](http://progressed.io/bar/62?title=代码注释 )<br/>
 ![Progress](http://progressed.io/bar/3?scale=3&title=更新文章&suffix=个)<br/>
+![Progress](http://progressed.io/bar/25?title=离线下载(当前正在做) )<br/>
 ![Progress](http://progressed.io/bar/0?title=自定义首页标签 )<br/>
 ![Progress](http://progressed.io/bar/0?title=收藏夹分类 )<br/>
-![Progress](http://progressed.io/bar/20?title=离线下载 )<br/>
 ![Progress](http://progressed.io/bar/0?title=后期优化 )<br/>
 <br/>
+
 ##  相关文章
 - <a href="http://blog.csdn.net/a8688555/article/details/79407112"> 强力推荐！项目讲解</a>
 - <a href="http://blog.csdn.net/a8688555/article/details/79383270"> 常见的MVP与封装 提供DEMO</a>
