@@ -40,7 +40,7 @@
 ![Progress](http://progressed.io/bar/62?title=代码注释 )<br/>
 ![Progress](http://progressed.io/bar/4?scale=4&title=更新文章&suffix=个)<br/>
 ![Progress](http://progressed.io/bar/75?title=离线下载(当前正在做) )<br/>
-已经在做了-V-。最近在找工作,更新速度会慢些-v-!!!<br/>
+上班太忙了，-v-.更新会慢！...<br/>
 ![Progress](http://progressed.io/bar/0?title=接入动漫视频模块)<br/>
 ![Progress](http://progressed.io/bar/0?title=自定义首页标签 )<br/>
 ![Progress](http://progressed.io/bar/0?title=收藏夹分类 )<br/>
