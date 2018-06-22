@@ -17,6 +17,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lai.mtc.R;
 import com.lai.mtc.bean.ComicListDetail;
 import com.lai.mtc.bean.ComicPreView;
+import com.lai.mtc.comm.widget.MyPagerSnapHelper;
 import com.lai.mtc.comm.widget.PreCacheLayoutManager;
 import com.lai.mtc.comm.widget.TouchRecyclerView;
 import com.lai.mtc.dao.RecordDao;
@@ -159,7 +160,7 @@ public class ComicPreviewActivity extends BaseMvpActivity<ComicsPreviewPresenter
         mComicListDetail = (ComicListDetail) getIntent().getSerializableExtra("comicListDetail");
         index = getIntent().getIntExtra("index", 1);
         hideLayout();
-        if(mComicListDetail!=null){
+        if (mComicListDetail != null) {
             setToolBar(mToolbar, mComicListDetail.getName(), true);
             showInfo(mComicListDetail);
             request(index);
@@ -398,7 +399,7 @@ public class ComicPreviewActivity extends BaseMvpActivity<ComicsPreviewPresenter
         } else {
             linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
             mRvList.setLayoutManager(linearLayoutManager);
-            mPagerSnapHelper = new PagerSnapHelper();
+            mPagerSnapHelper = new MyPagerSnapHelper(linearLayoutManager.getExtraSpace());
             mPagerSnapHelper.attachToRecyclerView(mRvList);
         }
         mPreviewAdapter = null;
@@ -452,7 +453,7 @@ public class ComicPreviewActivity extends BaseMvpActivity<ComicsPreviewPresenter
     @Override
     public void finish() {
         //更新当前数据库记录
-        if(mComicListDetail!=null&&firstVisibleItem!=null){
+        if (mComicListDetail != null && firstVisibleItem != null) {
             mRecordDao.updateRecord(
                     mComicListDetail.getId(),
                     firstVisibleItem.getName()

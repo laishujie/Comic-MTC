@@ -45,6 +45,28 @@ public class ScreenUtils {
     }
 
     /**
+     * 获得屏幕高度
+     *
+     * @param context
+     * @return
+     */
+    public static int getScreenHeight(Context context)
+    {
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics outMetrics = new DisplayMetrics();
+        wm.getDefaultDisplay().getMetrics(outMetrics);
+        return outMetrics.heightPixels;
+    }
+
+    public static int getScreenWidth(Context context)
+    {
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics outMetrics = new DisplayMetrics();
+        wm.getDefaultDisplay().getMetrics(outMetrics);
+        return outMetrics.widthPixels;
+    }
+
+    /**
      * 获取屏幕的高度（单位：px）
      *
      * @return 屏幕高

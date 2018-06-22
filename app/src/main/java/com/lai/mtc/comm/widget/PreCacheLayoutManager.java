@@ -9,18 +9,23 @@ import android.support.v7.widget.RecyclerView;
  * @time 2018/2/6 18:05
  * @describe 预加载的LayoutManager
  * getExtraLayoutSpace()，增加不可见View的缓存的空间
- *
+ * <p>
  * http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0209/2452.html
- *
  */
 
 public class PreCacheLayoutManager extends LinearLayoutManager {
 
+    public int getExtraSpace() {
+        return mExtraSpace;
+    }
+
     private int mExtraSpace = 0;
+
 
     public PreCacheLayoutManager(Context context) {
         super(context);
     }
+
 
     public void setExtraSpace(int extraSpace) {
         mExtraSpace = extraSpace;
@@ -38,4 +43,5 @@ public class PreCacheLayoutManager extends LinearLayoutManager {
         }
         return 0;
     }
+
 }

@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.util.SparseArray;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.bumptech.glide.GenericTransitionOptions;
 import com.bumptech.glide.load.DataSource;
@@ -19,6 +20,7 @@ import com.lai.mtc.R;
 import com.lai.mtc.bean.ComicPreView;
 import com.lai.mtc.comm.CommonAdapter;
 import com.lai.mtc.mvp.utlis.SPUtils;
+import com.lai.mtc.mvp.utlis.ScreenUtils;
 import com.lai.mtc.mvp.utlis.glide.GlideApp;
 import com.lai.mtc.mvp.utlis.glide.GlideRequest;
 
@@ -32,8 +34,6 @@ import java.util.List;
 
 public class PreviewAdapter extends CommonAdapter<ComicPreView.PagesBean> {
 
-    //记录上一次的位置。防止再次计算
-    private int lastPosition;
     //预览模式
     private int module;
 
@@ -73,9 +73,7 @@ public class PreviewAdapter extends CommonAdapter<ComicPreView.PagesBean> {
                 .placeholder(new ColorDrawable(Color.BLACK))
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .transition(new GenericTransitionOptions<Bitmap>());
-        //避免重新计算
-        if (module == 0 && lastPosition <= position) {
-            lastPosition = position;
+        if (module == 0) {
             RequestListener<Bitmap> requestListener = new RequestListener<Bitmap>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
@@ -83,20 +81,29 @@ public class PreviewAdapter extends CommonAdapter<ComicPreView.PagesBean> {
                 }
 
                 @Override
-                public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
+                public boolean onResourceReady(Bitmap bitmap, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
                     if (imageView == null) {
                         return false;
                     }
-                    //FIXME: 固定宽。高度的比例自适应进行缩放.可能照成OOM.后期得想办法
+
                     if (imageView.getScaleType() != ImageView.ScaleType.FIT_XY) {
                         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                     }
-                    ViewGroup.LayoutParams params = imageView.getLayoutParams();
+                  /*  ViewGroup.LayoutParams params = imageView.getLayoutParams();
                     int vw = imageView.getWidth() - imageView.getPaddingLeft() - imageView.getPaddingRight();
                     float scale = (float) vw / (float) resource.getWidth();
                     int vh = Math.round(resource.getHeight() * scale);
                     params.height = vh + imageView.getPaddingTop() + imageView.getPaddingBottom();
-                    imageView.setLayoutParams(params);
+                    imageView.setLayoutParams(params);*/
+
+                    int width = bitmap.getWidth();
+                    int height = bitmap.getHeight();
+                    float scale = ((float) height) / width;
+                    ViewGroup.LayoutParams layoutParams = imageView.getLayoutParams();
+                    layoutParams.width = ScreenUtils.getScreenWidth(mContext);
+                    layoutParams.height = (int) (scale * ScreenUtils.getScreenWidth(mContext));
+                    imageView.setLayoutParams(layoutParams);
+
                     return false;
                 }
             };
