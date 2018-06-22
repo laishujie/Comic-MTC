@@ -1,8 +1,8 @@
 package com.lai.mtc.mvp.presenter;
 
+import android.annotation.SuppressLint;
 import android.support.annotation.IntDef;
 
-import com.google.gson.Gson;
 import com.lai.mtc.api.ComicApi;
 import com.lai.mtc.bean.ComicCategories;
 import com.lai.mtc.bean.ComicListInfo;
@@ -10,7 +10,6 @@ import com.lai.mtc.comm.ApiException;
 import com.lai.mtc.comm.HttpRxObserver;
 import com.lai.mtc.mvp.base.impl.BasePresenter;
 import com.lai.mtc.mvp.contract.ComicsContract;
-import com.lai.mtc.mvp.http.JsonTest;
 import com.lai.mtc.mvp.utlis.ListUtils;
 import com.lai.mtc.mvp.utlis.RxUtlis;
 
@@ -21,8 +20,6 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Action;
@@ -36,7 +33,7 @@ import retrofit2.Response;
  * @author Lai
  * @time 2017/12/11 17:04
  * @describe 漫画业务桥梁P
- * @see  SimplePresenter
+ * @see SimplePresenter
  */
 
 public class ComicsPresenter extends BasePresenter<ComicsContract.View> implements ComicsContract.Model {
@@ -52,16 +49,21 @@ public class ComicsPresenter extends BasePresenter<ComicsContract.View> implemen
     public @interface MODE {
     }
 
-
     @Inject
     ComicsPresenter(ComicApi comicApi) {
         mComicApi = comicApi;
     }
 
+    //列表ITEM
     private List<ComicListInfo> mInfoList;
 
+    /**
+     * 首页请求
+     *
+     * @param currMode 当前单列还是多列
+     */
+    @SuppressLint("CheckResult")
     @Override
-    //@RequestLoading
     public void requestHome(@MODE final int currMode) {
         mRootView.showLoading();
         //2秒后请求,看一会加载动画 -v-!!!
@@ -69,40 +71,25 @@ public class ComicsPresenter extends BasePresenter<ComicsContract.View> implemen
                 .compose(mRootView.<Long>bindToLifecycle())
                 .subscribe(new Consumer<Long>() {
                     @Override
-                    public void accept(Long aLong) throws Exception {
+                    public void accept(Long aLong) {
                         if (currMode == SINGLE_MODE) {
-                            testData();
+                            getHome();
                         } else {
                             getRandomComic();
                         }
                     }
                 });
-        //提供单列与多列
-        // mRootView.showLoading();
-
-        /*Observable.timer(3, TimeUnit.SECONDS).compose(mRootView.<Long>bindToLifecycle()).subscribe(new Consumer<Long>() {
-            @Override
-            public void accept(Long aLong) throws Exception {
-                int st = SPUtils.getInstance().getInt("page");
-                st = st == -1 ? 1 : st;
-                int page = new Random().nextInt(st);
-                Log.w("11111", "生成的随机页面" + page);
-                mComicApi.getAllComic(page).compose(RxUtlis.<ComicListInfo>toMain()).compose(mRootView.<ComicListInfo>bindToLifecycle())
-                        .subscribe(new Consumer<ComicListInfo>() {
-                            @Override
-                            public void accept(ComicListInfo comicListInfo) throws Exception {
-                                mRootView.hideLoading();
-                                ArrayList<ComicListInfo> comicListInfos = new ArrayList<>();
-                                comicListInfos.add(comicListInfo);
-                                mRootView.showRequestHome(comicListInfos);
-                                SPUtils.getInstance().put("page", comicListInfo.getTotal_pages());
-                            }
-                        });
-
-            }
-        });*/
     }
 
+    /**
+     * 换一批
+     *
+     * @param module   当前是单列还是多列
+     * @param pager    当前页面
+     * @param position 当前位置
+     * @param id       id
+     * @param name     标题
+     */
     @Override
     public void change(int module, int pager, final int position, int id, String name) {
         mRootView.showLoading();
@@ -112,13 +99,15 @@ public class ComicsPresenter extends BasePresenter<ComicsContract.View> implemen
         } else {
             allComic = mComicApi.getTypeComicsByResponseId(id, pager, name);
         }
+
         allComic.compose(RxUtlis.<Response<ComicListInfo>>toMain())
                 .doOnNext(new Consumer<Response<ComicListInfo>>() {
                     @Override
-                    public void accept(Response<ComicListInfo> comicListInfoResponse) throws Exception {
+                    public void accept(Response<ComicListInfo> comicListInfoResponse) {
                         setShowInfo(comicListInfoResponse);
                     }
-                }).compose(mRootView.<Response<ComicListInfo>>bindToLifecycle())
+                })
+                .compose(mRootView.<Response<ComicListInfo>>bindToLifecycle())
                 .onErrorResumeNext(new HttpResultFunction<Response<ComicListInfo>>())
                 .subscribe(new HttpRxObserver<>(new HttpRxObserver.IResult<Response<ComicListInfo>>() {
                     @Override
@@ -129,36 +118,46 @@ public class ComicsPresenter extends BasePresenter<ComicsContract.View> implemen
 
                     @Override
                     public void onError(ApiException e) {
+                        mRootView.hideLoading();
                         mRootView.handleError(e);
                     }
                 }));
     }
 
 
-    private void testData() {
-        Observable.create(new ObservableOnSubscribe<ComicListInfo>() {
-            @Override
-            public void subscribe(ObservableEmitter<ComicListInfo> e) throws Exception {
-                Gson gson = new Gson();
-                ComicListInfo comicListInfo = gson.fromJson(JsonTest.home, ComicListInfo.class);
-                e.onNext(comicListInfo);
-            }
-        }).compose(RxUtlis.<ComicListInfo>toMain()).subscribe(new Consumer<ComicListInfo>() {
-            @Override
-            public void accept(ComicListInfo comicListInfo) throws Exception {
-                comicListInfo.setTitle("随机推荐");
-                mRootView.hideLoading();
-                ArrayList<ComicListInfo> comicListInfos = new ArrayList<>();
-                comicListInfos.add(comicListInfo);
-                mRootView.showRequestHome(comicListInfos);
-            }
-        });
+    /**
+     * 首页请求
+     */
+    private void getHome() {
+        mComicApi.getAllComic(1)
+                .compose(RxUtlis.<Response<ComicListInfo>>toMain())
+                .compose(mRootView.<Response<ComicListInfo>>bindToLifecycle())
+                .onErrorResumeNext(new HttpResultFunction<Response<ComicListInfo>>())
+                .subscribe(new HttpRxObserver<>(new HttpRxObserver.IResult<Response<ComicListInfo>>() {
+                    @Override
+                    public void onSuccess(Response<ComicListInfo> comicListInfoResponse) {
+                        ComicListInfo comicListInfo = comicListInfoResponse.body();
+                        if (comicListInfo != null) {
+                            comicListInfo.setTitle("随机推荐");
+                            mRootView.hideLoading();
+                            ArrayList<ComicListInfo> comicListInfos = new ArrayList<>();
+                            comicListInfos.add(comicListInfo);
+                            mRootView.showRequestHome(comicListInfos);
+                        }
+                    }
+
+                    @Override
+                    public void onError(ApiException e) {
+                        mRootView.handleError(e);
+                        mRootView.hideLoading();
+                    }
+                }));
     }
 
-    public void request(ComicCategories comicCategories) {
-        mComicApi.getTypeComicsById(comicCategories.getId(), 1);
-    }
 
+    /**
+     * 多个分类请求
+     */
     private void getRandomComic() {
         mInfoList = new ArrayList<>();
         // 热血2 冒险5 魔幻41 神鬼11 搞笑30 萌系7 治愈 校园10 爱情9 科幻16 魔法6 格斗26 武侠39 机战23 战争28 竞技1
@@ -172,30 +171,35 @@ public class ComicsPresenter extends BasePresenter<ComicsContract.View> implemen
         news.add(new ComicCategories(41, "魔幻"));
         news.add(new ComicCategories(7, "萌系"));
 
-        Observable.fromIterable(news).subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io()).compose(mRootView.<ComicCategories>bindToLifecycle())
-                .flatMap(new Function<ComicCategories, ObservableSource<Response<ComicListInfo>>>() {
+        Observable.fromIterable(news)
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .compose(mRootView.<ComicCategories>bindToLifecycle())
+                //将分类转换为 请求漫画列表
+                .flatMap(transformationComicListInfo())
+                //绑定生命周期
+                .compose(mRootView.<Response<ComicListInfo>>bindToLifecycle())
+                //拼接每个Item条目的信息
+                .doOnNext(new Consumer<Response<ComicListInfo>>() {
                     @Override
-                    public ObservableSource<Response<ComicListInfo>> apply(ComicCategories comicCategories) throws Exception {
-                        return mComicApi.getTypeComicsByResponseId(comicCategories.getId(), 1, comicCategories.getName());
+                    public void accept(Response<ComicListInfo> comicListInfoResponse) {
+                        setShowInfo(comicListInfoResponse);
                     }
-                }).compose(mRootView.<Response<ComicListInfo>>bindToLifecycle()).doOnNext(new Consumer<Response<ComicListInfo>>() {
-            @Override
-            public void accept(Response<ComicListInfo> comicListInfoResponse) throws Exception {
-                setShowInfo(comicListInfoResponse);
-            }
-        }).compose(mRootView.<Response<ComicListInfo>>bindToLifecycle())
+                })
+                .compose(mRootView.<Response<ComicListInfo>>bindToLifecycle())
+                //错误统一处理
                 .onErrorResumeNext(new HttpResultFunction<Response<ComicListInfo>>())
                 .observeOn(AndroidSchedulers.mainThread())
+                //所有循环结束后返回数据
                 .doOnComplete(new Action() {
                     @Override
-                    public void run() throws Exception {
-                        //TODO 所有循环结束后返回数据
+                    public void run() {
                         mRootView.hideLoading();
                         mRootView.showRequestHome(mInfoList);
                     }
                 })
                 .compose(mRootView.<Response<ComicListInfo>>bindToLifecycle())
+                //回调
                 .subscribe(new HttpRxObserver<>(new HttpRxObserver.IResult<Response<ComicListInfo>>() {
                     @Override
                     public void onSuccess(Response<ComicListInfo> comicListInfoResponse) {
@@ -210,6 +214,26 @@ public class ComicsPresenter extends BasePresenter<ComicsContract.View> implemen
                 }));
     }
 
+    /**
+     * 根据分类转换为 请求漫画列表
+     *
+     * @return 漫画列表
+     */
+    private Function<ComicCategories, ObservableSource<Response<ComicListInfo>>> transformationComicListInfo() {
+        return new Function<ComicCategories, ObservableSource<Response<ComicListInfo>>>() {
+            @Override
+            public ObservableSource<Response<ComicListInfo>> apply(ComicCategories comicCategories) {
+                //分类请求漫画列表
+                return mComicApi.getTypeComicsByResponseId(comicCategories.getId(), 1, comicCategories.getName());
+            }
+        };
+    }
+
+    /**
+     * 拼接每个Item条目的信息
+     *
+     * @param comicListInfoResponse ComicListInfo
+     */
     private void setShowInfo(Response<ComicListInfo> comicListInfoResponse) {
         HttpUrl url = comicListInfoResponse.raw().request().url();
         String id = String.valueOf(url.queryParameter("q[tags_id_eq]"));
