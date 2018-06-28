@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.RadioButton;
 
 import com.lai.mtc.R;
+import com.lai.mtc.comm.Parameter;
 import com.lai.mtc.mvp.utlis.SPUtils;
 
 /**
@@ -46,7 +47,7 @@ public class ModuleDialog extends Dialog {
     }
 
     private void init() {
-        int module = SPUtils.getInstance("config").getInt("module", 0);
+        int module = SPUtils.getInstance(Parameter.SP_CONFIG).getInt(Parameter.SP_PREVIEW_MODE, 0);
         if (module == 0)
             mCbPull.setChecked(true);
         else
@@ -62,7 +63,7 @@ public class ModuleDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 int module = mCbPager.isChecked() ? 1 : 0;
-                SPUtils.getInstance("config").put("module", module);
+                SPUtils.getInstance(Parameter.SP_CONFIG).put(Parameter.SP_PREVIEW_MODE, module);
                 if (mOnClickListener != null)
                     mOnClickListener.onClick(v);
                 dismiss();

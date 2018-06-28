@@ -13,11 +13,14 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.integration.recyclerview.RecyclerViewPreloader;
+import com.bumptech.glide.util.ViewPreloadSizeProvider;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lai.mtc.R;
 import com.lai.mtc.bean.ComicListDetail;
 import com.lai.mtc.bean.ComicPreView;
-import com.lai.mtc.comm.widget.MyPagerSnapHelper;
+import com.lai.mtc.comm.Parameter;
 import com.lai.mtc.comm.widget.PreCacheLayoutManager;
 import com.lai.mtc.comm.widget.TouchRecyclerView;
 import com.lai.mtc.dao.RecordDao;
@@ -28,20 +31,17 @@ import com.lai.mtc.mvp.ui.comics.adapter.ChapterAdapter;
 import com.lai.mtc.mvp.ui.comics.adapter.PreviewAdapter;
 import com.lai.mtc.mvp.ui.comics.dialog.ModuleDialog;
 import com.lai.mtc.mvp.ui.comics.pop.WindowLightPop;
-import com.lai.mtc.mvp.utlis.ListUtils;
-import com.lai.mtc.mvp.utlis.RxUtlis;
 import com.lai.mtc.mvp.utlis.SPUtils;
 import com.lai.mtc.mvp.utlis.ScreenUtils;
 import com.lai.mtc.mvp.utlis.ViewUtils;
 
+import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
 
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
@@ -105,12 +105,47 @@ public class ComicPreviewActivity extends BaseMvpActivity<ComicsPreviewPresenter
     @Inject
     RecordDao mRecordDao;
 
-    boolean isUpdate;
+    RecyclerViewPreloader<ComicPreView.PagesBean> mRecyclerViewPreLoader;
+
 
     @Override
     public int getLayoutResId(Bundle savedInstanceState) {
         return R.layout.comic_activity_preview;
     }
+
+
+    @Override
+    public void init(Bundle savedInstanceState) {
+        mComicListDetail = (ComicListDetail) getIntent().getSerializableExtra("comicListDetail");
+        index = getIntent().getIntExtra("index", 1);
+        hideLayout();
+        initPreLoaderAdapter();
+        if (mComicListDetail != null) {
+            setToolBar(mToolbar, mComicListDetail.getName(), true);
+            showInfo(mComicListDetail);
+            request(index, true);
+        }
+    }
+
+    /**
+     * 初始化预加载Adapter
+     */
+    public void initPreLoaderAdapter() {
+        final int module = SPUtils.getInstance(Parameter.SP_CONFIG).getInt(Parameter.SP_PREVIEW_MODE, 0);
+        int layoutRes = module == 0 ? R.layout.comic_item_preview : R.layout.comic_item_preview2;
+        initModule(module);
+        final ViewPreloadSizeProvider<ComicPreView.PagesBean> preloadSizeProvider = new ViewPreloadSizeProvider<>();
+        mPreviewAdapter = new PreviewAdapter(layoutRes, Collections.<ComicPreView.PagesBean>emptyList(), preloadSizeProvider);
+        if (mRecyclerViewPreLoader != null) {
+            mRvList.removeOnScrollListener(mRecyclerViewPreLoader);
+        }
+        mRecyclerViewPreLoader = new RecyclerViewPreloader<>(Glide.with(this), mPreviewAdapter, preloadSizeProvider, Parameter.MAX_PRELOAD);
+        mRvList.addOnScrollListener(mRecyclerViewPreLoader);
+
+        mPreviewAdapter.bindToRecyclerView(mRvList);
+        mPreviewAdapter.setOnLoadMoreListener(mRequestLoadMoreListener, mRvList);
+    }
+
 
     /**
      * 底部菜单点击事件
@@ -142,8 +177,9 @@ public class ComicPreviewActivity extends BaseMvpActivity<ComicsPreviewPresenter
         moduleDialog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                initModule(SPUtils.getInstance("config").getInt("module", 0));
-                request(index);
+                //initModule(SPUtils.getInstance(Parameter.SP_CONFIG).getInt(Parameter.SP_PREVIEW_MODE, 0));
+                initPreLoaderAdapter();
+                request(index, true);
             }
         });
     }
@@ -155,37 +191,45 @@ public class ComicPreviewActivity extends BaseMvpActivity<ComicsPreviewPresenter
         windowLightPop.showAtLocation(mFrameLayout, Gravity.BOTTOM, 0, 0);
     }
 
-    @Override
-    public void init(Bundle savedInstanceState) {
-        mComicListDetail = (ComicListDetail) getIntent().getSerializableExtra("comicListDetail");
-        index = getIntent().getIntExtra("index", 1);
-        hideLayout();
-        if (mComicListDetail != null) {
-            setToolBar(mToolbar, mComicListDetail.getName(), true);
-            showInfo(mComicListDetail);
-            request(index);
-        }
-    }
 
     /**
      * 根据标识去请求集数图片
      *
      * @param index 标识
      */
-    public void request(int index) {
+    public void request(int index, boolean isRefresh) {
         this.index = index;
         if (mComicListDetail != null)
-            mPresenter.requestPreview(mComicListDetail.getId(), index, this);
+            mPresenter.requestPreview(mComicListDetail.getId(), index, this, isRefresh);
+    }
+
+    @Override
+    public void showPreview(ComicPreView comicPreView, boolean isRefresh) {
+        firstVisibleItem = comicPreView;
+        List<ComicPreView.PagesBean> pages = comicPreView.getPages();
+        //更新记录
+        mPreviewAdapter.setComicPreView(comicPreView);
+        mPreviewAdapter.setData(isRefresh, pages);
+
+        updateCurrObject(mRvList);
+        if (!isRefresh) {
+            //更新左边菜单
+            mLeftChaptersAdapter.updatePosition(nextPosition, index);
+            mPreviewAdapter.loadMoreComplete();
+        } else {
+            mRvList.scrollToPosition(0);
+            //更新数据
+            updateCurrIndex(0);
+        }
     }
 
     @Override
     protected void bindEvent() {
         //为了更好的提高滚动的流畅性，可以加大 RecyclerView 的缓存，用空间换时间
         mRvList.setHasFixedSize(true);
-        mRvList.setItemViewCacheSize(10);
+        //mRvList.setItemViewCacheSize(10);
         mRvList.setDrawingCacheEnabled(true);
         mRvList.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
-        initModule(SPUtils.getInstance("config").getInt("module", 0));
         mRvList.setITouchCallBack(new TouchRecyclerView.ITouchCallBack() {
             @Override
             public void click() {
@@ -197,6 +241,7 @@ public class ComicPreviewActivity extends BaseMvpActivity<ComicsPreviewPresenter
                 }
             }
         });
+
         mRvList.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -205,15 +250,6 @@ public class ComicPreviewActivity extends BaseMvpActivity<ComicsPreviewPresenter
                     //更新当前对象在更新信息
                     updateCurrIndex(updateCurrObject(recyclerView));
                 }
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                if (isUpdate) {
-                    updateCurrIndex(updateCurrObject(recyclerView));
-                    isUpdate = false;
-                }
-                super.onScrolled(recyclerView, dx, dy);
             }
         });
 
@@ -230,20 +266,38 @@ public class ComicPreviewActivity extends BaseMvpActivity<ComicsPreviewPresenter
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                //先更新当前图片所在的对象
-                updateCurrObject(mRvList);
                 int progress = seekBar.getProgress() <= 0 ? 0 : seekBar.getProgress() - 1;
                 ComicPreView.PagesBean pagesBean = firstVisibleItem.getPages().get(progress);
                 if (pagesBean != null) {
                     int i = mPreviewAdapter.getData().indexOf(pagesBean);
                     if (i != -1) {
                         mRvList.scrollToPosition(i);
-                        isUpdate = true;
+                        //先更新当前图片所在的对象
+                        updateCurrIndex(updateCurrObject(i));
                     }
                 }
             }
         });
     }
+
+    final BaseQuickAdapter.RequestLoadMoreListener mRequestLoadMoreListener = new BaseQuickAdapter.RequestLoadMoreListener() {
+        @Override
+        public void onLoadMoreRequested() {
+            //这里可以提前加载下一话
+            int lastPosition = mLeftChaptersAdapter.getLastPosition();
+            List<ComicListDetail.ChaptersBean> data = mLeftChaptersAdapter.getData();
+            nextPosition = lastPosition + 1;
+            if ((nextPosition == data.size())) {
+                //已经是最后一话不在自动加载
+                mPreviewAdapter.loadMoreEnd();
+            } else {
+                ComicListDetail.ChaptersBean item = mLeftChaptersAdapter.getItem(nextPosition);
+                if (item != null) {
+                    request(item.getIndex(), false);
+                }
+            }
+        }
+    };
 
     /**
      * 更新当前图片所在的对象
@@ -261,6 +315,21 @@ public class ComicPreviewActivity extends BaseMvpActivity<ComicsPreviewPresenter
                 firstVisibleItem = comicPreViewByIndex;
         }
         return firstVisibleItemPosition;
+    }
+
+    /**
+     * 更新当前图片所在的对象
+     *
+     * @return 当前位置
+     */
+    public int updateCurrObject(int position) {
+        ComicPreView.PagesBean item = mPreviewAdapter.getItem(position);
+        if (item != null) {
+            ComicPreView comicPreViewByIndex = mPreviewAdapter.getComicPreViewByIndex(item.getIndex());
+            if (comicPreViewByIndex != null)
+                firstVisibleItem = comicPreViewByIndex;
+        }
+        return position;
     }
 
     /**
@@ -339,49 +408,6 @@ public class ComicPreviewActivity extends BaseMvpActivity<ComicsPreviewPresenter
         return mToolbar;
     }
 
-    @Override
-    public void showPreview(ComicPreView comicPreView) {
-        final int module = SPUtils.getInstance("config").getInt("module", 0);
-        //设置设置的预览模式
-        //用哪个布局
-        int layoutRes = module == 0 ? R.layout.comic_item_preview : R.layout.comic_item_preview2;
-        //
-        List<ComicPreView.PagesBean> pages = comicPreView.getPages();
-        if (mPreviewAdapter == null) {
-            mPreviewAdapter = new PreviewAdapter(layoutRes, pages, comicPreView);
-            firstVisibleItem = comicPreView;
-            int size = pages.size();
-            String format = String.format(getString(R.string.current_set_number), comicPreView.getName(), 1, size);
-            mTvCurrPager.setText(format);
-            mSeekBar.setMax(size);
-            mPreviewAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
-                @Override
-                public void onLoadMoreRequested() {
-                    //这里可以提前加载下一话
-                    int lastPosition = mLeftChaptersAdapter.getLastPosition();
-                    List<ComicListDetail.ChaptersBean> data = mLeftChaptersAdapter.getData();
-                    nextPosition = lastPosition + 1;
-                    if ((nextPosition == data.size())) {
-                        //已经是最后一话不在自动加载
-                        mPreviewAdapter.loadMoreEnd();
-                    } else {
-                        ComicListDetail.ChaptersBean item = mLeftChaptersAdapter.getItem(nextPosition);
-                        if (item != null) {
-                            request(item.getIndex());
-                        }
-                    }
-                }
-            }, mRvList);
-            mRvList.setAdapter(mPreviewAdapter);
-        } else {
-            //更新记录
-            mPreviewAdapter.setComicPreView(comicPreView);
-            mPreviewAdapter.setData(false, pages);
-            //更新左边菜单
-            mLeftChaptersAdapter.updatePosition(nextPosition, index);
-            mPreviewAdapter.loadMoreComplete();
-        }
-    }
 
     /**
      * 初始化观看模式
@@ -389,9 +415,11 @@ public class ComicPreviewActivity extends BaseMvpActivity<ComicsPreviewPresenter
      * @param module 模式
      */
     private void initModule(int module) {
-        PreCacheLayoutManager linearLayoutManager = new PreCacheLayoutManager(this);
-        linearLayoutManager.setExtraSpace(2);
+        // PreCacheLayoutManager linearLayoutManager = new PreCacheLayoutManager(this);
+        //提前加载
+        // linearLayoutManager.setExtraSpace(2);
         //默认的模式
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         if (module == 0) {
             mRvList.setLayoutManager(linearLayoutManager);
             if (mPagerSnapHelper != null)
@@ -399,50 +427,44 @@ public class ComicPreviewActivity extends BaseMvpActivity<ComicsPreviewPresenter
         } else {
             linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
             mRvList.setLayoutManager(linearLayoutManager);
-            mPagerSnapHelper = new MyPagerSnapHelper(linearLayoutManager.getExtraSpace());
+            mPagerSnapHelper = new PagerSnapHelper();
             mPagerSnapHelper.attachToRecyclerView(mRvList);
         }
         mPreviewAdapter = null;
     }
 
+    /**
+     * 初始化基本信息
+     *
+     * @param comicListDetail
+     */
     public void showInfo(ComicListDetail comicListDetail) {
         if (comicListDetail == null || comicListDetail.getChapters() == null || mLeftChaptersAdapter != null)
             return;
         mRvLeftList.setLayoutManager(new LinearLayoutManager(this));
-        List<ComicListDetail.ChaptersBean> showChapters = comicListDetail.getShowChapters();
-        List<ComicListDetail.ChaptersBean> chapters = !ListUtils.isEmpty(showChapters) ? showChapters : comicListDetail.getChapters();
-        mLeftChaptersAdapter = new ChapterAdapter(chapters);
-        mRvLeftList.setAdapter(mLeftChaptersAdapter);
+        mLeftChaptersAdapter = new ChapterAdapter(mComicListDetail.getChapters());
         mLeftChaptersAdapter.setIndex(index);
         mLeftChaptersAdapter.bindToRecyclerView(mRvLeftList);
-        mLeftChaptersAdapter.setItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+        mLeftChaptersAdapter.setItemClickListener(mLeftItemClickListener);
+        //跳转到对应的集数
+        mPresenter.getIndexByPosition(index, comicListDetail.getChapters(), new Consumer<Integer>() {
             @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                returnAllStatus();
-                mPreviewAdapter = null;
-                ComicListDetail.ChaptersBean o = (ComicListDetail.ChaptersBean) adapter.getData().get(position);
-                index = o.getIndex();
-                request(index);
+            public void accept(Integer integer) {
+                mRvLeftList.scrollToPosition(integer);
             }
         });
-        //如果展示的集合不为空，说明还有集数没加载完
-        if (!ListUtils.isEmpty(showChapters))
-            mLeftChaptersAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
-                @Override
-                public void onLoadMoreRequested() {
-                    Observable.timer(1, TimeUnit.SECONDS)
-                            .compose(ComicPreviewActivity.this.<Long>bindToLifecycle())
-                            .compose(RxUtlis.<Long>toMain())
-                            .subscribe(new Consumer<Long>() {
-                                @Override
-                                public void accept(Long aLong) throws Exception {
-                                    mLeftChaptersAdapter.setData(false, mComicListDetail.getLastChapters());
-                                    mLeftChaptersAdapter.loadMoreEnd();
-                                }
-                            });
-                }
-            }, mRvList);
     }
+
+    //左边集数点击
+    public final BaseQuickAdapter.OnItemClickListener mLeftItemClickListener = new BaseQuickAdapter.OnItemClickListener() {
+        @Override
+        public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+            returnAllStatus();
+            ComicListDetail.ChaptersBean o = (ComicListDetail.ChaptersBean) adapter.getData().get(position);
+            mRvList.scrollToPosition(0);
+            request(o.getIndex(), true);
+        }
+    };
 
     @Override
     public void onBackPressed() {

@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:8699208959836505960",
-      "lastPropertyId": "5:3948644640204751108",
+      "lastPropertyId": "7:3513099458287364368",
       "name": "MyCollection",
       "properties": [
         {
@@ -27,6 +27,14 @@
         {
           "id": "5:3948644640204751108",
           "name": "name"
+        },
+        {
+          "id": "6:1459824881156873142",
+          "name": "status"
+        },
+        {
+          "id": "7:3513099458287364368",
+          "name": "author"
         }
       ],
       "relations": []

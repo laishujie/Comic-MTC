@@ -30,6 +30,7 @@ import com.lai.mtc.mvp.base.impl.BaseMvpActivity;
 import com.lai.mtc.mvp.contract.ComicsListDetailContract;
 import com.lai.mtc.mvp.presenter.ComicsListDetailPresenter;
 import com.lai.mtc.mvp.ui.comics.adapter.ChapterDetailAdapter;
+import com.lai.mtc.mvp.utlis.CommonUtil;
 import com.lai.mtc.mvp.utlis.IPopMenu;
 import com.lai.mtc.mvp.utlis.ListUtils;
 import com.lai.mtc.mvp.utlis.PopupMenuUtil;
@@ -39,6 +40,7 @@ import com.lai.mtc.mvp.utlis.ViewUtils;
 import com.lai.mtc.mvp.utlis.glide.ImageUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -49,6 +51,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
+import io.reactivex.internal.util.ArrayListSupplier;
 
 /**
  * @author Lai
@@ -119,8 +122,13 @@ public class ComicListDetailActivity extends BaseMvpActivity<ComicsListDetailPre
 
     @OnClick(R.id.iv_reverse)
     public void reverse() {
-        if (mComicListDetail != null)
-            mPresenter.reverse(mComicListDetail);
+        if (commonAdapter != null) {
+            Collections.reverse(commonAdapter.getData());
+            if (commonAdapter != null) {
+               // commonAdapter.setIndex(mRecord.getIndex());
+                commonAdapter.notifyDataSetChanged();
+            }
+        }
     }
 
     @OnClick(R.id.btn_find)
@@ -160,8 +168,6 @@ public class ComicListDetailActivity extends BaseMvpActivity<ComicsListDetailPre
 
         init(entriesBean);
 
-        // ShareElementUtils.startAnimator(getIntent(), this, mCoverImageView, mBgView);
-
         ViewUtils.setTitleBarByTop(mAppBarLayout, this);
 
         setToolBar(mToolbar, getTitle().toString(), true);
@@ -191,18 +197,10 @@ public class ComicListDetailActivity extends BaseMvpActivity<ComicsListDetailPre
         commonAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
-                Observable.timer(1, TimeUnit.SECONDS)
-                        .compose(ComicListDetailActivity.this.<Long>bindToLifecycle())
-                        .compose(RxUtlis.<Long>toMain())
-                        .subscribe(new Consumer<Long>() {
-                            @Override
-                            public void accept(Long aLong) throws Exception {
-                                List<ComicListDetail.ChaptersBean> lastChapters = mComicListDetail.getLastChapters();
-                                if (lastChapters != null)
-                                    commonAdapter.setData(false, lastChapters);
-                                commonAdapter.loadMoreEnd();
-                            }
-                        });
+                List<ComicListDetail.ChaptersBean> chaptersBeans = CommonUtil.transformationLastList(mComicListDetail.getChapters());
+                if (chaptersBeans != null)
+                    commonAdapter.setData(false, chaptersBeans);
+                commonAdapter.loadMoreEnd();
             }
         }, mRvList);
     }
@@ -305,21 +303,19 @@ public class ComicListDetailActivity extends BaseMvpActivity<ComicsListDetailPre
     @Override
     public void showDetail(ComicListDetail comicListDetail) {
         mComicListDetail = comicListDetail;
-        //查看集合是否有经过裁剪、有则显示处理果的列表
-        List<ComicListDetail.ChaptersBean> showChapters = comicListDetail.getShowChapters();
-        List<ComicListDetail.ChaptersBean> chapters = !ListUtils.isEmpty(showChapters) ? showChapters : comicListDetail.getChapters();
-        if (!ListUtils.isEmpty(chapters))
-            mChaptersBean = chapters.get(0);
-
-        commonAdapter.setData(true, chapters);
-        commonAdapter.disableLoadMoreIfNotFullPage();
+        //裁剪前面的第52个。太多 加载会很慢
+        List<ComicListDetail.ChaptersBean> chaptersBeans = CommonUtil.transformationStartList(comicListDetail.getChapters());
+        commonAdapter.setData(true, chaptersBeans);
         commonAdapter.setComicListDetail(comicListDetail);
-        //commonAdapter.updateOnItemChildClickListener();
 
-        //更当前列表记录
-        comicId = mChaptersBean.getComic_id();
+        if (!ListUtils.isEmpty(chaptersBeans)) {
+            mChaptersBean = chaptersBeans.get(0);
+
+            //更当前列表记录
+            comicId = mChaptersBean.getComic_id();
+        }
+
         updateCurrRecordInfo();
-        //如果展示的集合不为空，说明还有集数没加载完
     }
 
 

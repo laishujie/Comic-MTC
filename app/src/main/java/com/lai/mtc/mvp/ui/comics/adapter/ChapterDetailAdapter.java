@@ -25,6 +25,15 @@ import java.util.List;
 public class ChapterDetailAdapter extends CommonAdapter<ComicListDetail.ChaptersBean> {
 
     private int lastPosition;
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
     private int index;
     private RecordDao mRecordDao;
 
@@ -41,7 +50,7 @@ public class ChapterDetailAdapter extends CommonAdapter<ComicListDetail.Chapters
         updateOnItemChildClickListener();
     }
 
-    public void updateOnItemChildClickListener() {
+    private void updateOnItemChildClickListener() {
         setOnItemChildClickListener(new OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
@@ -76,9 +85,9 @@ public class ChapterDetailAdapter extends CommonAdapter<ComicListDetail.Chapters
     protected void convert(BaseViewHolder baseViewHolder, ComicListDetail.ChaptersBean chaptersBean, int position) {
         baseViewHolder.addOnClickListener(R.id.list_item);
         ButtonStyle buttonStyle = baseViewHolder.getView(R.id.list_item);
-        if (lastPosition != -1 && lastPosition == position) {
+        /*if (lastPosition != -1 && lastPosition == position) {
             buttonStyle.setNormalColor(R.color.colorEEE);
-        } else if (index == chaptersBean.getIndex()) {
+        } else */if (index == chaptersBean.getIndex()) {
             lastPosition = position;
             buttonStyle.setNormalColor(R.color.colorEEE);
         } else {

@@ -139,9 +139,9 @@ public class NetModule {
 
     @Provides
     @Singleton
-    OkHttpClient provideOkHttpClient(HttpLoggingInterceptor httpLoggingInterceptor,CommonInterceptor commonInterceptor,CacheInterceptor cacheInterceptor) {
+    OkHttpClient provideOkHttpClient(HttpLoggingInterceptor httpLoggingInterceptor, CommonInterceptor commonInterceptor, CacheInterceptor cacheInterceptor) {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        builder.cache(new Cache(new File(Environment.getExternalStorageDirectory().getPath(), "HttpCache"), 1024 * 1024 * 10)).
+        builder.cache(new Cache(new File(MTC.getApp().getFilesDir(), "HttpCache"), 1024 * 1024 * 10)).
                 addInterceptor(httpLoggingInterceptor)
                 .addInterceptor(commonInterceptor)
                 .addNetworkInterceptor(cacheInterceptor).retryOnConnectionFailure(true)

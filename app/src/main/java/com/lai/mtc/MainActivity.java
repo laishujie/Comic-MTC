@@ -224,10 +224,10 @@ public class MainActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_module) {
             mMenuItem = item;
-            if ("多列".equals(item.getTitle())) {
+            if ("多列".equals(item.getTitle().toString())) {
                 ((ComicsMainFragment) currentFragment).changeMode(ComicsPresenter.SINGLE_MODE, new Consumer<Boolean>() {
                     @Override
-                    public void accept(Boolean aBoolean) throws Exception {
+                    public void accept(Boolean aBoolean) {
                         mMenuItem.setIcon(getResources().getDrawable(R.drawable.ic_line_weight_black_24dp));
                         mMenuItem.setTitle("单列");
                     }
@@ -235,7 +235,7 @@ public class MainActivity extends BaseActivity {
             } else {
                 ((ComicsMainFragment) currentFragment).changeMode(ComicsPresenter.MANY_MODE, new Consumer<Boolean>() {
                     @Override
-                    public void accept(Boolean aBoolean) throws Exception {
+                    public void accept(Boolean aBoolean) {
                         mMenuItem.setTitle("多列");
                         mMenuItem.setIcon(getResources().getDrawable(R.drawable.ic_dashboard_black_24dp));
                     }

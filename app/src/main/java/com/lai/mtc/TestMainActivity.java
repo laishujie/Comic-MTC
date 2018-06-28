@@ -1,6 +1,7 @@
 package com.lai.mtc;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -9,6 +10,7 @@ import com.lai.mtc.bean.ComicPreView;
 import com.lai.mtc.mvp.base.impl.BaseMvpActivity;
 import com.lai.mtc.mvp.contract.ComicsPreviewContract;
 import com.lai.mtc.mvp.presenter.ComicsPreviewPresenter;
+import com.lai.mtc.mvp.utlis.ScreenUtils;
 import com.lai.mtc.mvp.utlis.glide.GlideCacheUtil;
 import com.lai.mtc.mvp.utlis.glide.ImageUtils;
 
@@ -25,7 +27,9 @@ public class TestMainActivity extends BaseMvpActivity<ComicsPreviewPresenter> im
         findViewById(R.id.btn_1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.testList(TestMainActivity.this);
+                int[] imageWidthHeight = ScreenUtils.getImageWidthHeight(url);
+                Log.w("1111","ima");
+                //mPresenter.testList(TestMainActivity.this);
             }
         });
         findViewById(R.id.btn_2).setOnClickListener(new View.OnClickListener() {
@@ -53,13 +57,17 @@ public class TestMainActivity extends BaseMvpActivity<ComicsPreviewPresenter> im
         return null;
     }
 
-    @Override
     public void showPreview(ComicPreView comicPreView) {
 
     }
 
 
     public void showInfo(ComicListDetail comicListDetail) {
+
+    }
+
+    @Override
+    public void showPreview(ComicPreView comicPreView, boolean isRefresh) {
 
     }
 

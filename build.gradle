@@ -1,22 +1,8 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
-ext.support = "26.1.0"
-ext.test_runner_version="1.0.1"
-ext.test_espresso_version="3.0.1"
-ext.rxjava="2.1.6"
-ext.rxandroid="2.0.1"
-ext.retrofit="2.3.0"
-ext.converter_gson="2.3.0"
-ext.adapter_rxjava2="2.3.0"
-ext.logging_interceptor="3.8.1"
-ext.rxlifecycle2="2.2.0"
-ext.butterknife="8.8.1"
-ext.dagger="2.12"
-ext.buttonStyle="1.0.2"
-ext.BaseRecyclerViewAdapterHelper="2.9.35"
-ext.lottie="2.2.5"
-ext.glide="4.4.0"
+
 
 buildscript {
+    apply from: "config.gradle"
     ext.objectboxVersion = '1.4.0'
     repositories {
         google()

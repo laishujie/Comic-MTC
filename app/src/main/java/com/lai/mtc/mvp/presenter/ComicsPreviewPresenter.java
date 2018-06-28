@@ -1,6 +1,7 @@
 package com.lai.mtc.mvp.presenter;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
@@ -11,12 +12,15 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.google.gson.Gson;
+import com.lai.mtc.R;
 import com.lai.mtc.api.ComicApi;
+import com.lai.mtc.bean.ComicListDetail;
 import com.lai.mtc.bean.ComicPreView;
 import com.lai.mtc.comm.ApiException;
 import com.lai.mtc.comm.HttpRxObserver;
 import com.lai.mtc.mvp.base.impl.BasePresenter;
 import com.lai.mtc.mvp.contract.ComicsPreviewContract;
+import com.lai.mtc.mvp.utlis.RxUtlis;
 import com.lai.mtc.mvp.utlis.glide.GlideApp;
 
 import java.util.ArrayList;
@@ -31,13 +35,14 @@ import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
+import io.reactivex.functions.Predicate;
 import io.reactivex.schedulers.Schedulers;
 
 /**
  * @author Lai
  * @time 2018/1/23 16:37
  * @describe 预览业务桥梁
- * @see  SimplePresenter
+ * @see SimplePresenter
  */
 
 public class ComicsPreviewPresenter extends BasePresenter<ComicsPreviewContract.View> implements ComicsPreviewContract.Model {
@@ -130,35 +135,17 @@ public class ComicsPreviewPresenter extends BasePresenter<ComicsPreviewContract.
 
 
     @Override
-    public void requestPreview(int id, int index, final Context context) {
+    public void requestPreview(int id, int index, final Context context, final boolean isRefresh) {
         mRootView.showLoading();
-        mComicApi.getComicPreViewById(id, index).subscribeOn(Schedulers.io()).observeOn(Schedulers.computation())
+        mComicApi.getComicPreViewById(id, index)
                 .compose(mRootView.<ComicPreView>bindToLifecycle())
-                .flatMap(new Function<ComicPreView, ObservableSource<ComicPreView>>() {
-                    @Override
-                    public ObservableSource<ComicPreView> apply(final ComicPreView comicPreView) throws Exception {
-                        final List<ComicPreView.PagesBean> list;
-                        if (comicPreView.getPages().size() > 4) {
-                            list = new ArrayList<>(comicPreView.getPages().subList(0, 4));
-                        } else {
-                            list = comicPreView.getPages();
-                        }
-                        List<Observable<Boolean>> glideObservable = createGlideObservable(list, context);
-                        return Observable.combineLatest(glideObservable, new Function<Object[], ComicPreView>() {
-                            @Override
-                            public ComicPreView apply(Object[] objects) throws Exception {
-                                return comicPreView;
-                            }
-                        }).compose(mRootView.<ComicPreView>bindToLifecycle());
-                    }
-                }).compose(mRootView.<ComicPreView>bindToLifecycle())
-                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxUtlis.<ComicPreView>toMain())
                 .onErrorResumeNext(new HttpResultFunction<ComicPreView>())
                 .subscribe(new HttpRxObserver<>(new HttpRxObserver.IResult<ComicPreView>() {
                     @Override
                     public void onSuccess(ComicPreView comicPreView) {
                         mRootView.hideLoading();
-                        mRootView.showPreview(comicPreView);
+                        mRootView.showPreview(comicPreView, isRefresh);
                     }
 
                     @Override
@@ -167,4 +154,29 @@ public class ComicsPreviewPresenter extends BasePresenter<ComicsPreviewContract.
                     }
                 }));
     }
+
+    /**
+     * 当前index所在集合的位置
+     *
+     * @param index
+     */
+    @SuppressLint("CheckResult")
+    public void getIndexByPosition(final int index, final List<ComicListDetail.ChaptersBean> chapters, final Consumer<Integer> callBack) {
+        Observable.fromIterable(chapters)
+                .filter(new Predicate<ComicListDetail.ChaptersBean>() {
+                    @Override
+                    public boolean test(ComicListDetail.ChaptersBean chaptersBean) {
+                        return chaptersBean.getIndex() == index;
+                    }
+                })
+                .compose(mRootView.<ComicListDetail.ChaptersBean>bindToLifecycle())
+                .compose(RxUtlis.<ComicListDetail.ChaptersBean>toMain())
+                .subscribe(new Consumer<ComicListDetail.ChaptersBean>() {
+                    @Override
+                    public void accept(ComicListDetail.ChaptersBean chaptersBean) throws Exception {
+                        callBack.accept(chapters.lastIndexOf(chaptersBean));
+                    }
+                });
+    }
+
 }

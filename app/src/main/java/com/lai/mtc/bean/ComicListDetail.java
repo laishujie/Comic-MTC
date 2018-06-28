@@ -146,6 +146,7 @@ public class ComicListDetail implements Serializable, IPopMenu {
 
     public void setChapters(List<ChaptersBean> chapters) {
         this.chapters = chapters;
+        this.ascendingOrderChapters = chapters;
     }
 
     public List<MirrorsBean> getMirrors() {
@@ -166,6 +167,17 @@ public class ComicListDetail implements Serializable, IPopMenu {
     private int chapters_count;
     private java.util.List<String> tag_list;
     private java.util.List<ChaptersBean> chapters;
+
+    public List<ChaptersBean> getAscendingOrderChapters() {
+        return ascendingOrderChapters;
+    }
+
+    public void setAscendingOrderChapters(List<ChaptersBean> ascendingOrderChapters) {
+        this.ascendingOrderChapters = ascendingOrderChapters;
+    }
+
+    //升序
+    private java.util.List<ChaptersBean> ascendingOrderChapters;
 
     public List<ChaptersBean> getShowChapters() {
         return mShowChapters;
@@ -237,7 +249,7 @@ public class ComicListDetail implements Serializable, IPopMenu {
 
     }
 
-    public static class MirrorsBean implements IPopMenu,Serializable {
+    public static class MirrorsBean implements IPopMenu, Serializable {
         private int id;
         private String source;
 

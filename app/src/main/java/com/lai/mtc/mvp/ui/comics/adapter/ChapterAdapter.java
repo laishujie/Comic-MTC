@@ -26,8 +26,6 @@ public class ChapterAdapter extends CommonAdapter<ComicListDetail.ChaptersBean> 
         this.lastPosition = lastPosition;
     }
 
-    private SparseIntArray mindexMap = new SparseIntArray();
-
     public int getLastPosition() {
         return lastPosition;
     }

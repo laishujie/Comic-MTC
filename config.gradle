@@ -1,0 +1,60 @@
+ext {
+    android = [
+            compileSdkVersion: 26,
+            minSdkVersion    : 15,
+            targetSdkVersion : 26,
+            versionCode      : 1,
+            versionName      : "1.0"
+    ]
+    libsVersion = [
+            support = "26.1.0",
+            test_runner_version = "1.0.1",
+            test_espresso_version = "3.0.1",
+            rxjava = "2.1.6",
+            retrofit = "2.3.0",
+            rxandroid = "2.0.1",
+            retrofit = "2.3.0",
+            converter_gson = "2.3.0",
+            adapter_rxjava2 = "2.3.0",
+            logging_interceptor = "3.8.1",
+            rxlifecycle2 = "2.2.0",
+            butterknife = "8.8.1",
+            dagger = "2.12",
+            buttonStyle = "1.0.2",
+            BaseRecyclerViewAdapterHelper = "2.9.35",
+            lottie = "2.2.5",
+            glide = "4.4.0"
+
+    ]
+
+    dependencies = [
+            appcompat_v7                      : "com.android.support:appcompat-v7:$rootProject.support",
+            design                            : "com.android.support:design:$rootProject.support",
+            runner                            : "com.android.support.test:runner:$rootProject.test_runner_version",
+            cardview                          : "com.android.support:cardview-v7:$rootProject.support",
+            espresso                          : "com.android.support.test.espresso:espresso-core:$rootProject.test_espresso_version",
+            rxjava                            : "io.reactivex.rxjava2:rxjava:$rootProject.rxjava",
+            rxandroid                         : "io.reactivex.rxjava2:rxandroid:$rootProject.rxandroid",
+            retrofit                          : "com.squareup.retrofit2:retrofit:$rootProject.retrofit",
+            retrofit_converter_gson           : "com.squareup.retrofit2:converter-gson:$rootProject.converter_gson",
+            retrofit_adapter_rxjava2          : "com.squareup.retrofit2:adapter-rxjava2:$rootProject.adapter_rxjava2",
+            interceptor                       : "com.squareup.okhttp3:logging-interceptor:$rootProject.logging_interceptor",
+            rxlifecycle2                      : "com.trello.rxlifecycle2:rxlifecycle-components:$rootProject.rxlifecycle2",
+            //注解
+            butterknife                       : "com.jakewharton:butterknife:$rootProject.butterknife",
+            butterknife_annotationProcessor   : "com.jakewharton:butterknife-compiler:$rootProject.butterknife",
+            dagger                            : "com.google.dagger:dagger:$rootProject.dagger",
+            dagger_annotationProcessor        : "com.google.dagger:dagger-compiler:$rootProject.dagger",
+            dagger_provided                   : 'org.glassfish:javax.annotation:10.0-b28',
+            dagger_support                    : "com.google.dagger:dagger-android-support:$rootProject.dagger",
+            dagger_android_annotationProcessor: "com.google.dagger:dagger-android-processor:$rootProject.dagger",
+            buttonStyle                       : "com.lai:buttonStyle:$rootProject.buttonStyle",
+            BaseRecyclerViewAdapterHelper     : "com.github.CymChad:BaseRecyclerViewAdapterHelper:$rootProject.BaseRecyclerViewAdapterHelper",
+            lottie                            : "com.airbnb.android:lottie:$rootProject.lottie",
+            glide                             : "com.github.bumptech.glide:glide:$rootProject.glide",
+            glide_annotationProcessor         : "com.github.bumptech.glide:compiler:$rootProject.glide",
+            integration                       : "com.github.bumptech.glide:okhttp3-integration:$rootProject.glide",
+            glide_recyclerview                : "com.github.bumptech.glide:recyclerview-integration:$rootProject.glide"
+    ]
+
+}

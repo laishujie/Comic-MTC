@@ -4,6 +4,11 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import com.lai.mtc.comm.Parameter;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by hcc on 16/8/4 21:18
  * 100332338@qq.com
@@ -54,5 +59,29 @@ public class CommonUtil {
     }
 
 
+    /**
+     * 以52为分页标准，切割最后
+     *
+     * @param list
+     * @return
+     */
+    public static <T> List<T> transformationLastList(List<T> list) {
+        if (!ListUtils.isEmpty(list) && list.size() > Parameter.PAGING_STANDARD) {
+            return new ArrayList<>(list.subList(Parameter.PAGING_STANDARD, list.size()));
+        }
+        return null;
+    }
 
+    /**
+     * 以52为分页标准，切割最前
+     *
+     * @param list
+     * @return
+     */
+    public static <T> List<T> transformationStartList(List<T> list) {
+        if (!ListUtils.isEmpty(list) && list.size() > Parameter.PAGING_STANDARD) {
+            return new ArrayList<>(list.subList(0, Parameter.PAGING_STANDARD));
+        }
+        return null;
+    }
 }
