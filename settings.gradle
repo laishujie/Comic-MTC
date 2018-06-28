@@ -1,1 +1,1 @@
-include ':app', ':common_module'
+include ':app'
