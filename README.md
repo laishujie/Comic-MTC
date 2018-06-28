@@ -1,9 +1,9 @@
 <p align="center">
 <h1 align="center">Comic-MTC</h1>
 </p>
-版本：v1.0.0 | 大小：4.1 M | 2018/2/25
+版本：v1.2.0 | 大小：4.1 M | 2018/6/28
 <br/>
-<a href="https://github.com/laishujie/APk/raw/master/apk/MTC_1.0_2018-02-26_release.apk">点击下载体验</a>
+<a href="https://github.com/laishujie/APk/blob/master/apk/MTC_1.1_2018-06-28_release.apk">点击下载体验</a>
 
 ## 简介
 　在线漫画阅读器,项目采用 MVP + RxJava + Retrofit + Dagger2+rxlifecycle .功能上现在只是简单的基本功能。
@@ -37,13 +37,15 @@
 </p>
 
 ## 计划进度
-![Progress](http://progressed.io/bar/62?title=代码注释 )<br/>
-![Progress](http://progressed.io/bar/4?scale=4&title=更新文章&suffix=个)<br/>
 上班太忙了，-v-.更新会慢！...一直没有更新感觉对不起这几位start的兄弟TVT，近期我抽点时间优化优化！！<br/>
+
+
+![Progress](http://progressed.io/bar/80?title=代码注释 )<br/>
+![Progress](http://progressed.io/bar/4?scale=4&title=更新文章&suffix=个)<br/>
+![Progress](http://progressed.io/bar/20?title=后期优化 )<br/>
 ![Progress](http://progressed.io/bar/0?title=接入动漫视频模块)<br/>
 ![Progress](http://progressed.io/bar/0?title=自定义首页标签 )<br/>
 ![Progress](http://progressed.io/bar/0?title=收藏夹分类 )<br/>
-![Progress](http://progressed.io/bar/1?title=后期优化 )<br/>
 <br/>
 
 ##  相关文章
