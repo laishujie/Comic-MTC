@@ -3,7 +3,7 @@
 </p>
 版本：v1.2.0 | 大小：4.1 M | 2018/6/28
 <br/>
-<a href="https://github.com/laishujie/APk/blob/master/apk/MTC_1.1_2018-06-28_release.apk">点击下载体验</a>
+<a href="https://github.com/laishujie/APk/raw/master/apk/MTC_1.1_2018-06-28_release.apk">点击下载体验</a>
 
 ## 简介
 　在线漫画阅读器,项目采用 MVP + RxJava + Retrofit + Dagger2+rxlifecycle .功能上现在只是简单的基本功能。
