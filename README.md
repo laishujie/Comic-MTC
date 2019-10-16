@@ -1,9 +1,22 @@
 <p align="center">
+ 
 <h1 align="center">Comic-MTC</h1>
 </p>
 版本：v1.2.0 | 大小：4.1 M | 2018/6/28
 <br/>
 <a href="https://github.com/laishujie/APk/raw/master/apk/MTC_1.1_2018-06-28_release.apk">点击下载体验</a>
+
+<br/>
+
+## 注意
+
+接口的服务器已挂！！！！！！！！！，不过里面的代码倒是可以借鉴一下，注释完整。
+
+<br/>
+
+如果想学MVVM可以看最新的漫画项目 <a href="https://github.com/laishujie/ComicMTC_v2">ComicMTC_V2: Kotlin+MVVM+LiveData+协程+Retrofit</a>
+欢迎start 😜
+
 
 ## 简介
 　在线漫画阅读器,项目采用 MVP + RxJava + Retrofit + Dagger2+rxlifecycle .功能上现在只是简单的基本功能。
@@ -15,7 +28,12 @@
 
 如果对你有帮助不妨start支持一下.感谢ヽ(￣ω￣(￣ω￣〃)ゝ
 
-作者的服务起已挂！！！！！！！！！
+##  相关文章
+- <a href="http://blog.csdn.net/a8688555/article/details/79407112"> 强力推荐！项目讲解</a>
+- <a href="http://blog.csdn.net/a8688555/article/details/79383270"> 常见的MVP与封装 提供DEMO</a>
+- <a href="http://blog.csdn.net/a8688555/article/details/78792793"> Dagger2搭建</a>
+- <a href="http://blog.csdn.net/a8688555/article/details/79634295"> recycleView 性能优化</a>
+
 
 ## 应用截图
 <p align="center">
@@ -50,12 +68,6 @@
 ![Progress](http://progressed.io/bar/0?title=收藏夹分类 )<br/>
 <br/>
 
-##  相关文章
-- <a href="http://blog.csdn.net/a8688555/article/details/79407112"> 强力推荐！项目讲解</a>
-- <a href="http://blog.csdn.net/a8688555/article/details/79383270"> 常见的MVP与封装 提供DEMO</a>
-- <a href="http://blog.csdn.net/a8688555/article/details/78792793"> Dagger2搭建</a>
-- <a href="http://blog.csdn.net/a8688555/article/details/79634295"> recycleView 性能优化</a>
-- 其他文章近期更新
 
 ## 声明
 　本项目部分API来自酷克漫画，个人练手学习项目，此开源项目仅做学习交流使用, 不涉及任何商业用途，有如侵权，立即删除。
