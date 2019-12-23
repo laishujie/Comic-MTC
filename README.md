@@ -10,8 +10,7 @@
 
 ## 注意
 
-接口的服务器已挂！！！！！！！！！，不过里面的代码倒是可以借鉴一下，注释完整。
-
+接口的服务器已挂！！！！！！！！！，不过里面的代码倒是可以借鉴一下，注释完整。首页的列表做法不需要看，这种嵌套做法不好
 <br/>
 
 如果想学MVVM可以看最新的漫画项目 <a href="https://github.com/laishujie/ComicMTC_v2">ComicMTC_V2: Kotlin+MVVM+LiveData+协程+Retrofit</a>
